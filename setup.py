@@ -3,12 +3,8 @@ import sys
 
 from setuptools import setup, find_packages
 
-VERSION = '0.2'
-
-install_reqs = ['crcmod', 'pyserial']
-
 setup(name='plugwiselib', 
-    version=VERSION,
+    version='0.2',
     description='A library for communicating with Plugwise smartplugs',
     author='Sven Petai',
     author_email='hadara@bsd.ee',
@@ -16,7 +12,10 @@ setup(name='plugwiselib',
     license='MIT',
     packages=find_packages(),
     py_modules=['plugwise'],
-    install_requires=install_reqs,
+    install_requires=[
+          'crcmod',
+          'pyserial',
+      ],
     download_url='https://github.com/cyberjunky/python-plugwise/archive/0.2.tar.gz',
     scripts=['plugwise_util'],
 )
