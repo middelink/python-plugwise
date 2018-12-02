@@ -8,11 +8,11 @@ setup(
   author='Sven Petai',
   author_email='hadara@bsd.ee',
   url='https://bitbucket.org/hadara/python-plugwise/wiki/Home',
-  download_url='https://github.com/cyberjunky/python-plugwise/archive/0.2.tar.gz',
+  download_url='https://github.com/cyberjunky/plugwise/archive/0.2.tar.gz',
   install_requires=[
         'crcmod',
         'pyserial',
-     ],
+  ],
   scripts=['plugwise_util'],
   classifiers=[
     'Development Status :: 3 - Alpha',
