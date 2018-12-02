@@ -15,14 +15,14 @@ setup(name='plugwiselib',
     install_requires=[
           'crcmod',
           'pyserial',
-    ],
+       ],
     download_url='https://github.com/cyberjunky/python-plugwise/archive/0.2.tar.gz',
     scripts=['plugwise_util'],
     classifiers=[
       'Development Status :: 3 - Alpha',
       'Intended Audience :: Developers',
       'Topic :: Software Development :: Build Tools',
-      'License :: MIT License',
+      'License :: OSI Approved :: MIT License',
       'Programming Language :: Python :: 3',
     ],
 )
