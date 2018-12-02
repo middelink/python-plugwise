@@ -17,6 +17,7 @@ setup(name='plugwiselib',
     packages=find_packages(),
     py_modules=['plugwise'],
     install_requires=install_reqs,
+    download_url='https://github.com/cyberjunky/python-plugwise/archive/0.2.tar.gz',
     scripts=['plugwise_util'],
 )
 
