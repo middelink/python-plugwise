@@ -159,26 +159,27 @@ class Circle(object):
         resp = self._expect_response(PlugwisePowerUsageResponse)
         p1s, p8s, p1h = resp.pulse_1s.value, resp.pulse_8s.value, resp.pulse_hour.value
 
-        # sometimes the circle returns max values for some of the pulse counters
-        # I have no idea what it means but it certainly isn't a reasonable value
-        # so I just assume that it's meant to signal some kind of a temporary error condition
-        if p1s == 65535 or p8s == 65535:
-            raise ValueError("Pulse counters seem to contain unreasonable values")
-        if p1h == 4294967295:
-            raise ValueError("1h pulse counter seems to contain an unreasonable value")
+        # sometimes the circle returns -1 for some of the pulse counters
+        # likely this means the circle measures very little power and is suffering from
+        # rounding errors. Zero these out. However, negative pulse values are valid
+        # for power producing elements, like solar panels, so don't complain too loudly.
+        if p1s == -1:
+            p1s = 0
+        if p8s == -1:
+            p8s = 0
+        if p1h == -1:
+            p1h = 0
 
         return (p1s, p8s, p1h)
 
     def get_power_usage(self):
-        """returns power usage for the last second in Watts
-        might raise ValueError if reading the pulse counters fails
+        """returns power usage for the last second in Watts. Negative values
+        mean power was produced, not consumed. E.g. solar panels.
+        Might raise ValueError if reading the pulse counters fails
         """
         pulse_1s, _, _ = self.get_pulse_counters()
         corrected_pulses = self.pulse_correction(pulse_1s)
-        retval = self.pulses_to_kWs(corrected_pulses)*1000
-        # sometimes it's slightly less than 0, probably caused by calibration/calculation errors
-        # it doesn't make much sense to return negative power usage in that case
-        return retval if retval > 0.0 else 0.0
+        return self.pulses_to_kWs(corrected_pulses)*1000
 
     def get_info(self):
         """fetch relay state & current logbuffer index info
